@@ -1,0 +1,24 @@
+Default: &defaults
+  user: infopipe
+  password: infopipe
+  host: localhost
+  port: 5432
+  database: info-pipe
+  poolsize: 10
+
+Development:
+  <<: *defaults
+
+Testing:
+  database: infopipe_test
+  <<: *defaults
+
+Staging:
+  database: infopipe_staging
+  poolsize: 100
+  <<: *defaults
+
+Production:
+  database: infopipe_production
+  poolsize: 100
+  <<: *defaults
