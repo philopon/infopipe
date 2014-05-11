@@ -3,7 +3,7 @@ Default: &defaults
   password: infopipe
   host: localhost
   port: 5432
-  database: info-pipe
+  database: infopipe
   poolsize: 10
 
 Development:

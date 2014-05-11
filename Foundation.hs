@@ -13,6 +13,7 @@ import Settings (widgetFile, Extra (..))
 import Text.Jasmine (minifym)
 import Text.Hamlet (hamletFile)
 import Yesod.Core.Types (Logger)
+import Data.Pool
 
 import Application.Database
 
@@ -27,6 +28,12 @@ data App = App
     , connPool  :: ConnPool
     , appLogger :: Logger
     }
+
+runSQL :: (MonadHandler m, MonadBaseControl IO m, HandlerSite m ~ App)
+       => SQL b -> m b
+runSQL (SQL query) = do
+    pool <- fmap connPool getYesod
+    withResource pool (liftIO . query)
 
 instance HasHttpManager App where
     getHttpManager = httpManager

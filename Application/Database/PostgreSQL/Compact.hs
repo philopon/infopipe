@@ -9,6 +9,8 @@ import Data.Aeson
 
 type ConnPool = Pool Connection
 
+newtype SQL a = SQL (Connection -> IO a)
+
 mkConnPool :: Show e => e -> FilePath -> IO ConnPool
 mkConnPool env file = do
     (conf, np) <- withYamlEnvironment file env parser
