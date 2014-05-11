@@ -77,11 +77,13 @@ instance Yesod App where
                 then do
                     addStylesheetRemote "//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.css"
                     addScriptRemote     "//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"
+                    addScriptRemote     "//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-route.js"
                     addScriptRemote     "//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.js"
                     addScript $ StaticR js_ui_bootstrap_tpls_0_11_0_js
                 else do
                     addStylesheetRemote "//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"
                     addScriptRemote     "//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"
+                    addScriptRemote     "//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-route.min.js"
                     addScriptRemote     "//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"
                     addScript $ StaticR js_ui_bootstrap_tpls_0_11_0_min_js
 
