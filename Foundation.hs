@@ -39,7 +39,6 @@ instance HasHttpManager App where
     getHttpManager = httpManager
 
 -- Set up i18n messages. See the message folder.
-mkMessage "App" "messages" "en"
 
 -- This is where we define all of the routes in our application. For a full
 -- explanation of the syntax, please see:
@@ -74,11 +73,16 @@ instance Yesod App where
         -- you to use normal widget features in default-layout.
 
         pc <- widgetToPageContent $ do
-            $(combineStylesheets 'StaticR
-                [ css_normalize_css
-                , css_bootstrap_css
-                ])
+            if development 
+                then do
+                    addStylesheetRemote "//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.css"
+                    addScriptRemote     "//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.js"
+                else do
+                    addStylesheetRemote "//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"
+                    addScriptRemote     "//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"
+
             $(widgetFile "default-layout")
+
         giveUrlRenderer $(hamletFile "templates/default-layout-wrapper.hamlet")
 
     -- This is done to provide an optimization for serving static files from
