@@ -76,10 +76,14 @@ instance Yesod App where
             if development 
                 then do
                     addStylesheetRemote "//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.css"
+                    addScriptRemote     "//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"
                     addScriptRemote     "//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.js"
+                    addScript $ StaticR js_ui_bootstrap_tpls_0_11_0_js
                 else do
                     addStylesheetRemote "//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"
+                    addScriptRemote     "//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"
                     addScriptRemote     "//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"
+                    addScript $ StaticR js_ui_bootstrap_tpls_0_11_0_min_js
 
             $(widgetFile "default-layout")
 
@@ -104,7 +108,7 @@ instance Yesod App where
             | otherwise   = base64md5 lbs
 
     -- Place Javascript at bottom of the body tag so the rest of the page loads first
-    jsLoader _ = BottomOfBody
+    jsLoader _ = BottomOfHeadBlocking
 
     -- What messages should be logged. The following includes all messages when
     -- in development, and warnings and errors in production.
