@@ -13,6 +13,9 @@ import Settings (widgetFile, Extra (..))
 import Text.Jasmine (minifym)
 import Text.Hamlet (hamletFile)
 import Yesod.Core.Types (Logger)
+import Data.Pool
+
+import Application.Database
 
 -- | The site argument for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
@@ -22,8 +25,15 @@ data App = App
     { settings :: AppConfig DefaultEnv Extra
     , getStatic :: Static -- ^ Settings for static file serving.
     , httpManager :: Manager
+    , connPool  :: ConnPool
     , appLogger :: Logger
     }
+
+runSQL :: (MonadHandler m, MonadBaseControl IO m, HandlerSite m ~ App)
+       => SQL b -> m b
+runSQL (SQL query) = do
+    pool <- fmap connPool getYesod
+    withResource pool (liftIO . query)
 
 instance HasHttpManager App where
     getHttpManager = httpManager

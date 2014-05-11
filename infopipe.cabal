@@ -18,6 +18,10 @@ library
                      Settings
                      Settings.StaticFiles
                      Settings.Development
+
+                     Application.Database
+                     Application.Database.PostgreSQL.Compact
+
                      Handler.Home
 
     if flag(dev) || flag(library-only)
@@ -63,6 +67,9 @@ library
                  , monad-logger                  >= 0.3        && < 0.4
                  , fast-logger                   >= 2.1.4      && < 2.2
                  , wai-logger                    >= 2.1        && < 2.2
+
+                 , resource-pool                 >=0.2.1
+                 , postgresql-simple             >=0.4.2
 
 executable         infopipe
     if flag(library-only)

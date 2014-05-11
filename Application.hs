@@ -20,6 +20,8 @@ import Network.Wai.Logger (clockDateCacher)
 import Data.Default (def)
 import Yesod.Core.Types (loggerSet, Logger (Logger))
 
+import Application.Database
+
 -- Import all relevant handler modules here.
 -- Don't forget to add new modules to your cabal file!
 import Handler.Home
@@ -58,6 +60,8 @@ makeFoundation conf = do
     manager <- newManager
     s <- staticSite
 
+    pool <- mkConnPool (appEnv conf) "config/postgresql.yml"
+
     loggerSet' <- newStdoutLoggerSet defaultBufSize
     (getter, updater) <- clockDateCacher
 
@@ -73,7 +77,7 @@ makeFoundation conf = do
     _ <- forkIO updateLoop
 
     let logger = Yesod.Core.Types.Logger loggerSet' getter
-        foundation = App conf s manager logger
+        foundation = App conf s manager pool logger
 
     return foundation
 
